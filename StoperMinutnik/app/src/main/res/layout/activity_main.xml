@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="25dp">
+
+        <Button
+            android:id="@+id/btnStoper"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_marginEnd="10dp"
+            android:textSize="25sp"
+            android:text="Stoper"
+            android:layout_marginBottom="100dp"/>
+
+        <Button
+            android:id="@+id/btnMinutnik"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textSize="25sp"
+            android:text="Minutnik"
+            android:layout_marginBottom="100dp"/>
+    </LinearLayout>
+
+    <!-- STOPER -->
+
+    <LinearLayout
+        android:id="@+id/layoutStoper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/stoper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="00:00:00"
+            android:textSize="80sp"
+            android:layout_marginBottom="25dp" />
+
+        <Button
+            android:id="@+id/startStoper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:textSize="20sp"
+            android:layout_marginBottom="15dp" />
+
+        <Button
+            android:id="@+id/pauzaStoper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pauza"
+            android:textSize="20sp"
+            android:layout_marginBottom="15dp" />
+
+        <Button
+            android:id="@+id/resetStoper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Reset" />
+    </LinearLayout>
+
+    <!-- MINUTNIK -->
+
+    <LinearLayout
+        android:id="@+id/layoutMinutnik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/sekundy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Wpisz czas do odmierzenia w sekundach"
+            android:inputType="number"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/minutnik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="00:00"
+            android:textSize="80sp"
+            android:layout_marginBottom="25dp" />
+
+        <Button
+            android:id="@+id/startMinutnik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:textSize="20sp"
+            android:layout_marginBottom="15dp" />
+
+        <Button
+            android:id="@+id/pauzaMinutnik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pauza"
+            android:textSize="20sp"
+            android:layout_marginBottom="15dp" />
+
+        <Button
+            android:id="@+id/resetMinutnik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Reset" />
+    </LinearLayout>
+
+</LinearLayout>
