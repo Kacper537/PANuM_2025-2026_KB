@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="40dp">
+    android:fitsSystemWindows="true"
+    android:paddingTop="20dp">
+
 
     <ListView
         android:id="@+id/list_cafeterias"

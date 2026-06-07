@@ -1,10 +1,18 @@
 package com.example.kafeteria;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class CafeteriaActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class CafeteriaActivity extends AppCompatActivity {
 
     public static final String EXTRA_CAFETERIAID = "cafeteriaId";
 
@@ -13,16 +21,51 @@ public class CafeteriaActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cafeteria);
 
-        int cafeteriaId =
-                (Integer) getIntent().getExtras().get(EXTRA_CAFETERIAID);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
-        Cafeteria cafeteria =
-                Cafeteria.cafeterias[cafeteriaId];
+        int cafeteriaId = (Integer) getIntent().getExtras().get(EXTRA_CAFETERIAID);
 
-        TextView name = findViewById(R.id.name);
-        name.setText(cafeteria.getName());
+        SQLiteOpenHelper databaseHelper = new KafeteriaDatabaseHelper(this);
+        try {
+            SQLiteDatabase db = databaseHelper.getReadableDatabase();
+            Cursor cursor = db.query("CAFETERIA",
+                    new String[]{"NAME", "ADDRESS", "OPENING_HOURS", "IMAGE_RESOURCE_ID"},
+                    "_id = ?",
+                    new String[]{Integer.toString(cafeteriaId)},
+                    null, null, null);
 
-        TextView description = findViewById(R.id.description);
-        description.setText(cafeteria.getDescription());
+            if (cursor.moveToFirst()) {
+                String nameText = cursor.getString(0);
+                setTitle(nameText);
+                String addressText = cursor.getString(1);
+                String openingHoursText = cursor.getString(2);
+                int photoId = cursor.getInt(3);
+
+                ImageView photo = findViewById(R.id.photo);
+                photo.setImageResource(photoId);
+                photo.setContentDescription(nameText);
+
+                TextView name = findViewById(R.id.name);
+                name.setText(nameText);
+
+                TextView address = findViewById(R.id.address);
+                address.setText(addressText);
+
+                TextView openingHours = findViewById(R.id.opening_hours);
+                openingHours.setText(openingHoursText);
+            }
+            cursor.close();
+            db.close();
+        } catch (SQLiteException e) {
+            Toast.makeText(this, "Baza danych jest niedostępna", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

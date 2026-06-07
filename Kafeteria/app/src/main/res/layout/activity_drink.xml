@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:padding="16dp">
 
     <ImageView
@@ -33,5 +34,12 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:paddingTop="10dp" />
+
+    <Button
+        android:id="@+id/button_add_to_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DODAJ DO KOSZYKA"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>

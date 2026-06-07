@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">W05</string>
+    <string name="app_name">Coffee Premium</string>
+    <string name="welcome_text">Witaj w Coffee Premium!</string>
     <string name="logo">Logo kafeterii</string>
+    <string name="cafeteria_photo">Zdjęcie kafeterii</string>
     <string-array name="options">
         <item>Napoje</item>
         <item>Przekąski</item>

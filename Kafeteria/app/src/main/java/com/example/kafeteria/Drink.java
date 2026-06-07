@@ -7,27 +7,7 @@ public class Drink {
     private String price;
     private int imageResourceId;
 
-    public static final Drink[] drinks = {
-            new Drink(
-                    "Latte",
-                    "Czarne espresso z gorącym mlekiem i mleczną pianką.",
-                    "12,00 zł",
-                    R.drawable.latte),
-
-            new Drink(
-                    "Cappuccino",
-                    "Czarne espresso z dużą ilością spienionego mleka.",
-                    "11,00 zł",
-                    R.drawable.cappuccino),
-
-            new Drink(
-                    "Espresso",
-                    "Czarna kawa ze świeżo mielonych ziaren najwyższej jakości.",
-                    "9,00 zł",
-                    R.drawable.espresso)
-    };
-
-    private Drink(String name,
+    public Drink(String name,
                   String description,
                   String price,
                   int imageResourceId) {

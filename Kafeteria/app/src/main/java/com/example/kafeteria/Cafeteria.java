@@ -3,24 +3,20 @@ package com.example.kafeteria;
 public class Cafeteria {
 
     private String name;
-    private String description;
+    private String address;
+    private String openingHours;
+    private int imageResourceId;
 
-    public static final Cafeteria[] cafeterias = {
-
-            new Cafeteria(
-                    "Kafeteria Centrum",
-                    "ul. Główna 1"),
-
-            new Cafeteria(
-                    "Kafeteria Południe",
-                    "ul. Kwiatowa 12")
-    };
 
     private Cafeteria(String name,
-                      String description) {
+                      String address,
+                      String openingHours,
+                      int imageResourceId) {
 
         this.name = name;
-        this.description = description;
+        this.address = address;
+        this.openingHours = openingHours;
+        this.imageResourceId = imageResourceId;
     }
 
     @Override
@@ -32,7 +28,15 @@ public class Cafeteria {
         return name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAddress() {
+        return address;
+    }
+
+    public String getOpeningHours() {
+        return openingHours;
+    }
+
+    public int getImageResourceId() {
+        return imageResourceId;
     }
 }

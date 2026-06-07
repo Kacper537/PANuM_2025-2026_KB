@@ -17,18 +17,18 @@
         <activity
             android:name=".CafeteriaActivity"
             android:exported="false" />
+
         <activity
-            android:name=".Cafeteria"
+            android:name=".CartActivity"
             android:exported="false" />
+
         <activity
             android:name=".SnackCategoryActivity"
             android:exported="false" />
         <activity
             android:name=".SnackActivity"
             android:exported="false" />
-        <activity
-            android:name=".Snack"
-            android:exported="false" />
+
         <activity
             android:name=".DrinkActivity"
             android:exported="false" />

@@ -1,11 +1,20 @@
 package com.example.kafeteria;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class SnackActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SnackActivity extends AppCompatActivity {
 
     public static final String EXTRA_SNACKID = "snackId";
 
@@ -14,21 +23,82 @@ public class SnackActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snack);
 
-        int snackId =
-                (Integer) getIntent().getExtras().get(EXTRA_SNACKID);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
-        Snack snack = Snack.snacks[snackId];
+        int snackId = (Integer) getIntent().getExtras().get(EXTRA_SNACKID);
 
-        TextView name = findViewById(R.id.name);
-        name.setText(snack.getName());
+        SQLiteOpenHelper databaseHelper = new KafeteriaDatabaseHelper(this);
+        try {
+            SQLiteDatabase db = databaseHelper.getReadableDatabase();
+            Cursor cursor = db.query("SNACK",
+                    new String[]{"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID", "PRICE"},
+                    "_id = ?",
+                    new String[]{Integer.toString(snackId)},
+                    null, null, null);
 
-        TextView description = findViewById(R.id.description);
-        description.setText(snack.getDescription());
+            if (cursor.moveToFirst()) {
+                String nameText = cursor.getString(0);
+                setTitle(nameText);
+                String descriptionText = cursor.getString(1);
+                int photoId = cursor.getInt(2);
+                String priceText = cursor.getString(3);
 
-        TextView price = findViewById(R.id.price);
-        price.setText(snack.getPrice());
+                TextView name = findViewById(R.id.name);
+                name.setText(nameText);
 
-        ImageView photo = findViewById(R.id.photo);
-        photo.setImageResource(snack.getImageResourceId());
+                TextView description = findViewById(R.id.description);
+                description.setText(descriptionText);
+
+                TextView price = findViewById(R.id.price);
+                price.setText(priceText);
+
+                ImageView photo = findViewById(R.id.photo);
+                photo.setImageResource(photoId);
+                photo.setContentDescription(nameText);
+
+                Button addToCart = findViewById(R.id.button_add_to_cart);
+                addToCart.setOnClickListener(v -> {
+                    addToCart(snackId, "SNACK");
+                    Toast.makeText(this, "Dodano do koszyka!", Toast.LENGTH_SHORT).show();
+                });
+            }
+            cursor.close();
+            db.close();
+        } catch (SQLiteException e) {
+            Toast.makeText(this, "Baza danych jest niedostępna", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addToCart(int itemId, String type) {
+        SQLiteOpenHelper databaseHelper = new KafeteriaDatabaseHelper(this);
+        try (SQLiteDatabase db = databaseHelper.getWritableDatabase()) {
+            Cursor cursor = db.query("CART", new String[]{"_id", "QUANTITY"},
+                    "ITEM_ID = ? AND ITEM_TYPE = ?",
+                    new String[]{String.valueOf(itemId), type},
+                    null, null, null);
+
+            if (cursor.moveToFirst()) {
+                int cartId = cursor.getInt(0);
+                int currentQty = cursor.getInt(1);
+                ContentValues values = new ContentValues();
+                values.put("QUANTITY", currentQty + 1);
+                db.update("CART", values, "_id = ?", new String[]{String.valueOf(cartId)});
+            } else {
+                ContentValues values = new ContentValues();
+                values.put("ITEM_ID", itemId);
+                values.put("ITEM_TYPE", type);
+                values.put("QUANTITY", 1);
+                db.insert("CART", null, values);
+            }
+            cursor.close();
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

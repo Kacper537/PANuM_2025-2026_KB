@@ -1,23 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="16dp"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_text"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="18dp"/>
+
     <ImageView
-        android:layout_width="280dp"
-        android:layout_height="140dp"
+        android:layout_width="400dp"
+        android:layout_height="260dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
         android:src="@drawable/logo"
         android:contentDescription="@string/logo" />
+
+    <TextView
+        android:text="Wybierz kategorię:"
+        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"
+        android:alpha="0.7"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+
     <ListView
         android:id="@+id/list_options"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:entries="@array/options" />
+
+    <Button
+        android:id="@+id/button_go_to_cart"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/options"
-        />
+        android:text="KOSZYK"
+        android:layout_marginTop="16dp" />
+
 </LinearLayout>
