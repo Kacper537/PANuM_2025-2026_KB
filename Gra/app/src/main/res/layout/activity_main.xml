@@ -47,5 +47,6 @@
         android:text="Rozpocznij mecz"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:backgroundTint="#15A21A"
         android:textSize="20sp"/>
 </LinearLayout>
