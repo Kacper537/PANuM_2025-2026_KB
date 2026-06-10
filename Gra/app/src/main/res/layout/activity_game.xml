@@ -7,12 +7,16 @@
     android:padding="16dp"
     android:gravity="center_horizontal">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
     <TextView
         android:id="@+id/tvCurrentPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gracz: X"
-        android:textSize="24sp"
+        android:textSize="36sp"
         android:layout_marginBottom="10dp"/>
 
     <TextView
@@ -20,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rozegrane: 0/0  |  X: 0 pkt  O: 0 pkt"
-        android:textSize="16sp"
+        android:textSize="22sp"
         android:layout_marginBottom="16dp"/>
 
     <GridLayout
@@ -28,17 +32,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="3"
-        android:rowCount="3">
+        android:rowCount="3"
+        android:layout_marginTop="20dp">
 
-        <Button android:id="@+id/btn0" style="@style/BoardButton"/>
-        <Button android:id="@+id/btn1" style="@style/BoardButton"/>
-        <Button android:id="@+id/btn2" style="@style/BoardButton"/>
-        <Button android:id="@+id/btn3" style="@style/BoardButton"/>
-        <Button android:id="@+id/btn4" style="@style/BoardButton"/>
-        <Button android:id="@+id/btn5" style="@style/BoardButton"/>
-        <Button android:id="@+id/btn6" style="@style/BoardButton"/>
-        <Button android:id="@+id/btn7" style="@style/BoardButton"/>
-        <Button android:id="@+id/btn8" style="@style/BoardButton"/>
+        <Button
+            android:id="@+id/btn0"
+            style="@style/BoardButton"
+            android:background="@color/buttonBackground"/>
+
+        <Button
+            android:id="@+id/btn1"
+            style="@style/BoardButton"
+            android:background="@color/buttonBackground"/>
+
+        <Button
+            android:id="@+id/btn2"
+            style="@style/BoardButton"
+            android:background="@color/buttonBackground"/>
+
+        <Button
+            android:id="@+id/btn3"
+            style="@style/BoardButton"
+            android:background="@color/buttonBackground"/>
+
+        <Button
+            android:id="@+id/btn4"
+            style="@style/BoardButton"
+            android:background="@color/buttonBackground"/>
+
+        <Button
+            android:id="@+id/btn5"
+            style="@style/BoardButton"
+            android:background="@color/buttonBackground"/>
+
+        <Button
+            android:id="@+id/btn6"
+            style="@style/BoardButton"
+            android:background="@color/buttonBackground"/>
+
+        <Button
+            android:id="@+id/btn7"
+            style="@style/BoardButton"
+            android:background="@color/buttonBackground"/>
+
+        <Button
+            android:id="@+id/btn8"
+            style="@style/BoardButton"
+            android:background="@color/buttonBackground"/>
 
     </GridLayout>
 

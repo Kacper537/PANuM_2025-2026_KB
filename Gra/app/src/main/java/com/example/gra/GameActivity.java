@@ -38,7 +38,7 @@ public class GameActivity extends AppCompatActivity {
             buttons[i].setOnClickListener(v -> handleMove(index));
         }
 
-        // Pobieramy liczbę gier z intentu
+
         totalGames = getIntent().getIntExtra("games", 5);
 
         match = new Match(totalGames);
@@ -52,7 +52,6 @@ public class GameActivity extends AppCompatActivity {
             finish();
         });
     }
-
     private void handleMove(int index) {
 
         int row = index / 3;
@@ -61,6 +60,12 @@ public class GameActivity extends AppCompatActivity {
         if(board.makeMove(row, col, currentPlayer)) {
 
             buttons[index].setText(String.valueOf(currentPlayer));
+
+            if(currentPlayer == 'X') {
+                buttons[index].setTextColor(getResources().getColor(R.color.playerX));
+            } else {
+                buttons[index].setTextColor(getResources().getColor(R.color.playerO));
+            }
 
             char winner = board.checkWinner();
 
@@ -80,7 +85,6 @@ public class GameActivity extends AppCompatActivity {
                 return;
             }
 
-            // zmiana gracza
             currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
             updateUI();
         }
@@ -99,7 +103,6 @@ public class GameActivity extends AppCompatActivity {
         board.resetBoard();
         currentPlayer = 'X';
 
-        // reset przycisków
         for(Button b : buttons) b.setText("");
 
         updateUI();
@@ -108,6 +111,13 @@ public class GameActivity extends AppCompatActivity {
     private void updateUI() {
 
         tvCurrentPlayer.setText("Gracz: " + currentPlayer);
+
+        if(currentPlayer == 'X') {
+            tvCurrentPlayer.setTextColor(getResources().getColor(R.color.playerX));
+        } else {
+            tvCurrentPlayer.setTextColor(getResources().getColor(R.color.playerO));
+        }
+
         tvStats.setText(
                 "Rozegrane: " + match.getPlayedGames() +
                         "\nPozostało: " + match.getRemainingGames() +
