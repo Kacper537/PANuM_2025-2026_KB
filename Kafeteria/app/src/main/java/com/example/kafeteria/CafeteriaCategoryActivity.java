@@ -69,15 +69,20 @@ public class CafeteriaCategoryActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_product, menu);
+        getMenuInflater().inflate(R.menu.menu_secondary, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_home) {
+        int id = item.getItemId();
+        if (id == R.id.action_home) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_cart) {
+            Intent intent = new Intent(this, CartActivity.class);
             startActivity(intent);
             return true;
         }

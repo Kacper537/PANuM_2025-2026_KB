@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
         //     getSupportActionBar().hide();
         // }
 
-        ListView listOptions = findViewById(R.id.list_options);
-        Button buttonCart = findViewById(R.id.button_go_to_cart);
-
         AdapterView.OnItemClickListener itemClickListener =
                 new AdapterView.OnItemClickListener() {
 
@@ -58,34 +55,55 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
 
-        listOptions.setOnItemClickListener(itemClickListener);
+        Button buttonDrinks = findViewById(R.id.button_drinks);
+        Button buttonSnacks = findViewById(R.id.button_snacks);
+        Button buttonCafeterias = findViewById(R.id.button_cafeterias);
 
-        buttonCart.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, CartActivity.class);
+        buttonDrinks.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, DrinkCategoryActivity.class);
             startActivity(intent);
         });
+
+        buttonSnacks.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SnackCategoryActivity.class);
+            startActivity(intent);
+        });
+
+        buttonCafeterias.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CafeteriaCategoryActivity.class);
+            startActivity(intent);
+        });
+
+//        buttonCart.setOnClickListener(v -> {
+//            Intent intent = new Intent(MainActivity.this, CartActivity.class);
+//            startActivity(intent);
+//        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Szukaj produktów...");
+        if (searchItem != null) {
+            SearchView searchView = (SearchView) searchItem.getActionView();
+            if (searchView != null) {
+                searchView.setQueryHint("Szukaj produktów...");
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Tutaj logika wyszukiwania w bazie
-                performSearch(query);
-                return true;
-            }
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        // Tutaj logika wyszukiwania w bazie
+                        performSearch(query);
+                        return true;
+                    }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+                });
             }
-        });
+        }
 
         return true;
     }
@@ -96,15 +114,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
+        if (id == R.id.action_cart) {
+            startActivity(new Intent(this, CartActivity.class));
+            return true;
+        }
+
+        if (id == R.id.action_search) {
+            // wyszukiwarka
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
-    private void shareOrder() {
-        Intent intent = new Intent(this, CartActivity.class);
-        startActivity(intent);
-    }
+
 }

@@ -12,6 +12,10 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -54,10 +58,37 @@ public class CafeteriaActivity extends AppCompatActivity {
                 name.setText(nameText);
 
                 TextView address = findViewById(R.id.address);
-                address.setText(addressText);
+
+                SpannableString addressSpan = new SpannableString(addressText);
+                int addressEnd = addressText.indexOf("\n");
+
+                if (addressEnd > 0) {
+                    addressSpan.setSpan(
+                            new StyleSpan(Typeface.BOLD),
+                            0,
+                            addressEnd,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );
+                }
+
+                address.setText(addressSpan);
+
 
                 TextView openingHours = findViewById(R.id.opening_hours);
-                openingHours.setText(openingHoursText);
+
+                SpannableString hoursSpan = new SpannableString(openingHoursText);
+                int hoursEnd = openingHoursText.indexOf("\n");
+
+                if (hoursEnd > 0) {
+                    hoursSpan.setSpan(
+                            new StyleSpan(Typeface.BOLD),
+                            0,
+                            hoursEnd,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );
+                }
+
+                openingHours.setText(hoursSpan);
             }
             cursor.close();
             db.close();
@@ -68,15 +99,20 @@ public class CafeteriaActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_product, menu);
+        getMenuInflater().inflate(R.menu.menu_secondary, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_home) {
+        int id = item.getItemId();
+        if (id == R.id.action_home) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_cart) {
+            Intent intent = new Intent(this, CartActivity.class);
             startActivity(intent);
             return true;
         }
@@ -88,4 +124,5 @@ public class CafeteriaActivity extends AppCompatActivity {
         finish();
         return true;
     }
+
 }
