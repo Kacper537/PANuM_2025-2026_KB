@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     Handler handler = new Handler();
 
-    long start, zapis;
+    long start = 0, zapis = 0;
     boolean dziala = false;
 
     long czas = 0;
@@ -37,6 +37,23 @@ public class MainActivity extends AppCompatActivity {
 
         layoutStoper = findViewById(R.id.layoutStoper);
         layoutMinutnik = findViewById(R.id.layoutMinutnik);
+
+        if (savedInstanceState != null) {
+            dziala = savedInstanceState.getBoolean("dziala", false);
+            start = savedInstanceState.getLong("start", 0);
+            zapis = savedInstanceState.getLong("zapis", 0);
+
+            timerDziala = savedInstanceState.getBoolean("timerDziala", false);
+            czas = savedInstanceState.getLong("czas", 0);
+
+            if (dziala) {
+                handler.post(run);
+            }
+
+            if (timerDziala) {
+                startMinutnikTimer(czas);
+            }
+        }
 
         findViewById(R.id.btnStoper).setOnClickListener(v -> {
             layoutStoper.setVisibility(View.VISIBLE);
@@ -73,53 +90,12 @@ public class MainActivity extends AppCompatActivity {
             stoper.setText("00:00:00");
         });
 
-
         findViewById(R.id.startMinutnik).setOnClickListener(v -> {
-
             if (!timerDziala) {
-
-                if (czas == 0)
+                if (czas == 0 && !sekundy.getText().toString().isEmpty())
                     czas = Integer.parseInt(sekundy.getText().toString()) * 1000L;
 
-                timer = new CountDownTimer(czas, 1000) {
-
-                    @Override
-                    public void onTick(long l) {
-
-                        czas = l;
-
-                        int s = (int) Math.ceil(l / 1000.0);
-                        int m = s / 60;
-
-                        s %= 60;
-
-                        minutnik.setText(String.format("%02d:%02d", m, s));
-                    }
-
-                    @Override
-                    public void onFinish() {
-
-                        minutnik.setText("00:00");
-
-                        timerDziala = false;
-                        czas = 0;
-
-                        String text = "Czas minął!";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(MainActivity.this, text, duration);
-
-                        toast.show();
-
-                        ToneGenerator toneGen =
-                                new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-
-                        toneGen.startTone(
-                                ToneGenerator.TONE_CDMA_ALERT_INCALL_LITE, 10);
-                    }
-                }.start();
-
-                timerDziala = true;
+                startMinutnikTimer(czas);
             }
         });
 
@@ -144,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
     Runnable run = new Runnable() {
         @Override
         public void run() {
-
             long ms = SystemClock.uptimeMillis() - start + zapis;
 
             int s = (int) (ms / 1000);
@@ -158,4 +133,45 @@ public class MainActivity extends AppCompatActivity {
             handler.postDelayed(this, 10);
         }
     };
+
+    private void startMinutnikTimer(long startCzas) {
+        timer = new CountDownTimer(startCzas, 1000) {
+            @Override
+            public void onTick(long l) {
+                czas = l;
+
+                int s = (int) Math.ceil(l / 1000.0);
+                int m = s / 60;
+                s %= 60;
+
+                minutnik.setText(String.format("%02d:%02d", m, s));
+            }
+
+            @Override
+            public void onFinish() {
+                minutnik.setText("00:00");
+                timerDziala = false;
+                czas = 0;
+
+                Toast.makeText(MainActivity.this, "Czas minął!", Toast.LENGTH_SHORT).show();
+
+                ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                toneGen.startTone(ToneGenerator.TONE_CDMA_ALERT_INCALL_LITE, 10);
+            }
+        }.start();
+
+        timerDziala = true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean("dziala", dziala);
+        outState.putLong("start", start);
+        outState.putLong("zapis", zapis);
+
+        outState.putBoolean("timerDziala", timerDziala);
+        outState.putLong("czas", czas);
+    }
 }
