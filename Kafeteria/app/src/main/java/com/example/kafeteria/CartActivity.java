@@ -32,8 +32,6 @@ public class CartActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private ListView listCart;
     private TextView textTotal;
-    private Spinner spinnerCafeteria;
-    private EditText editEmail;
     private CartAdapter adapter;
 
     @Override
@@ -49,18 +47,15 @@ public class CartActivity extends AppCompatActivity {
 
         listCart = findViewById(R.id.list_cart);
         textTotal = findViewById(R.id.text_total);
-        spinnerCafeteria = findViewById(R.id.spinner_cafeteria);
-        editEmail = findViewById(R.id.edit_email);
         Button buttonOrder = findViewById(R.id.button_order);
         Button buttonClearCart = findViewById(R.id.button_clear_cart);
 
         SQLiteOpenHelper databaseHelper = new KafeteriaDatabaseHelper(this);
         db = databaseHelper.getWritableDatabase();
 
-        loadCafeterias();
         refreshCart();
 
-        buttonOrder.setOnClickListener(v -> placeOrder());
+        buttonOrder.setOnClickListener(v -> showOrderDialog());
 
         buttonClearCart.setOnClickListener(v -> {
             db.delete("CART", null, null);
@@ -69,17 +64,97 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
+    private void showOrderDialog() {
 
-    private void loadCafeterias() {
+        View view = getLayoutInflater().inflate(R.layout.dialog_order, null);
+
+        Spinner spinner = view.findViewById(R.id.dialog_spinner_cafeteria);
+        EditText emailInput = view.findViewById(R.id.dialog_email);
+
+        // ustaw spinner jak w Twoim loadCafeterias()
         Cursor cursor = db.query("CAFETERIA", new String[]{"_id", "NAME"}, null, null, null, null, null);
-        SimpleCursorAdapter cafeteriaAdapter = new SimpleCursorAdapter(this,
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+                this,
                 android.R.layout.simple_spinner_item,
                 cursor,
                 new String[]{"NAME"},
                 new int[]{android.R.id.text1},
-                0);
-        cafeteriaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCafeteria.setAdapter(cafeteriaAdapter);
+                0
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Złóż zamówienie")
+                .setView(view)
+                .setPositiveButton("ZAMÓW", (dialog, which) -> {
+
+                    String email = emailInput.getText().toString();
+
+                    Cursor selected = (Cursor) spinner.getSelectedItem();
+                    String cafeteria = selected.getString(selected.getColumnIndexOrThrow("NAME"));
+
+                    if (validateEmail(email)) {
+                        String summary = prepareOrderSummary(email, cafeteria);
+                        showSuccessDialog(summary);
+                    }
+                })
+                .setNegativeButton("Anuluj", null)
+                .show();
+    }
+
+    private boolean validateEmail(String email) {
+        if (email.isEmpty()) {
+            Toast.makeText(this, "Podaj adres e-mail", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Podaj poprawny adres e-mail", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private String prepareOrderSummary(String email, String cafeteriaName) {
+        StringBuilder orderSummary = new StringBuilder();
+        orderSummary.append("Podsumowanie zamówienia w Kafeterii:\n\n");
+        orderSummary.append("Lokal: ").append(cafeteriaName).append("\n\n");
+        orderSummary.append("Produkty:\n");
+
+        List<CartItem> items = getCartItems();
+        double total = 0;
+        for (CartItem item : items) {
+            orderSummary.append("- ").append(item.name).append(" x ").append(item.quantity)
+                    .append(" (").append(item.priceStr).append(")\n");
+            total += item.priceValue * item.quantity;
+        }
+        orderSummary.append("\nŁączna kwota: ").append(String.format("%.2f zł", total));
+        return orderSummary.toString();
+    }
+
+    private void showSuccessDialog(String summary) {
+        View view = getLayoutInflater().inflate(R.layout.dialog_success, null);
+        AlertDialog successDialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        Button shareBtn = view.findViewById(R.id.button_share_order);
+        shareBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Moje zamówienie - Kafeteria");
+            intent.putExtra(Intent.EXTRA_TEXT, summary);
+            startActivity(Intent.createChooser(intent, "Udostępnij"));
+        });
+
+        successDialog.setOnDismissListener(dialog -> {
+            db.delete("CART", null, null);
+            refreshCart();
+            finish();
+        });
+
+        successDialog.show();
     }
 
     private void refreshCart() {
@@ -122,69 +197,7 @@ public class CartActivity extends AppCompatActivity {
         return items;
     }
 
-    private void placeOrder() {
-        String email = editEmail.getText().toString();
-        if (email.isEmpty()) {
-            Toast.makeText(this, "Podaj adres e-mail", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Podaj poprawny adres e-mail", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Cursor cafeteriaCursor = (Cursor) spinnerCafeteria.getSelectedItem();
-        String cafeteriaName = cafeteriaCursor.getString(cafeteriaCursor.getColumnIndex("NAME"));
-
-        StringBuilder orderSummary = new StringBuilder();
-        orderSummary.append("Podsumowanie zamówienia w Kafeterii:\n\n");
-        orderSummary.append("Lokal: ").append(cafeteriaName).append("\n\n");
-        orderSummary.append("Produkty:\n");
-
-        List<CartItem> items = getCartItems();
-        double total = 0;
-        for (CartItem item : items) {
-            orderSummary.append("- ").append(item.name).append(" x ").append(item.quantity)
-                    .append(" (").append(item.priceStr).append(")\n");
-            total += item.priceValue * item.quantity;
-        }
-        orderSummary.append("\nŁączna kwota: ").append(String.format("%.2f zł", total));
-
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Potwierdzenie zamówienia - Kafeteria");
-        intent.putExtra(Intent.EXTRA_TEXT, orderSummary.toString());
-
-        startActivity(Intent.createChooser(intent, "Wybierz aplikację e-mail"));
-
-        if (intent.resolveActivity(getPackageManager()) != null) {
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Potwierdzenie")
-                    .setMessage("Czy chcesz wysłać zamówienie?")
-                    .setPositiveButton("Tak", (dialog, which) -> {
-
-                        startActivity(intent);
-
-                        db.delete("CART", null, null);
-
-                        Toast.makeText(
-                                CartActivity.this,
-                                "Zamówienie zostało przygotowane",
-                                Toast.LENGTH_LONG
-                        ).show();
-
-                        finish();
-                    })
-                    .setNegativeButton("Nie", null)
-                    .show();
-        } else {
-            Toast.makeText(this, "Brak aplikacji e-mail", Toast.LENGTH_SHORT).show();
-        }
-    }
+    // Metoda placeOrder została zastąpiona przez prepareOrderSummary i showSuccessDialog
 
     private class CartItem {
         int id;

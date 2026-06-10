@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kafeteria">
         <activity
+            android:name=".SearchResultsActivity"
+            android:exported="false"
+            android:label="Wyniki wyszukiwania" />
+        <activity
             android:name=".CafeteriaCategoryActivity"
             android:exported="false" />
         <activity
@@ -37,6 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.Kafeteria.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

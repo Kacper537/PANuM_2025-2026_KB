@@ -28,25 +28,6 @@
         android:paddingTop="8dp"
         android:paddingBottom="16dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wybierz lokal:"
-        android:textSize="20sp" />
-
-    <Spinner
-        android:id="@+id/spinner_cafeteria"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp" />
-
-    <EditText
-        android:id="@+id/edit_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Twój adres e-mail"
-        android:inputType="textEmailAddress" />
-
     <Button
         android:id="@+id/button_order"
         android:layout_width="match_parent"
