@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/tvCurrentPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gracz: X"
+        android:textSize="24sp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/tvStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rozegrane: 0/0  |  X: 0 pkt  O: 0 pkt"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+    <GridLayout
+        android:id="@+id/gridBoard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="3">
+
+        <Button android:id="@+id/btn0" style="@style/BoardButton"/>
+        <Button android:id="@+id/btn1" style="@style/BoardButton"/>
+        <Button android:id="@+id/btn2" style="@style/BoardButton"/>
+        <Button android:id="@+id/btn3" style="@style/BoardButton"/>
+        <Button android:id="@+id/btn4" style="@style/BoardButton"/>
+        <Button android:id="@+id/btn5" style="@style/BoardButton"/>
+        <Button android:id="@+id/btn6" style="@style/BoardButton"/>
+        <Button android:id="@+id/btn7" style="@style/BoardButton"/>
+        <Button android:id="@+id/btn8" style="@style/BoardButton"/>
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/btnNewMatch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nowy mecz"
+        android:layout_marginTop="20dp"/>
+</LinearLayout>
