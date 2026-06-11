@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="36dp">
+
+        <EditText
+            android:id="@+id/tempo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tempo min/km"
+            android:inputType="numberDecimal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"/>
+
+        <EditText
+            android:id="@+id/predkosc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Prędkość km/h"
+            android:inputType="numberDecimal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"/>
+
+        <EditText
+            android:id="@+id/dystans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dystans km"
+            android:inputType="numberDecimal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="24dp"/>
+
+        <Button
+            android:id="@+id/b1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Oblicz z tempa" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp"/>
+
+        <Button
+            android:id="@+id/b2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Oblicz z prędkości" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dp"/>
+
+        <EditText
+            android:id="@+id/dystansCel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dystans do przebiegnięcia"
+            android:inputType="numberDecimal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"/>
+
+        <EditText
+            android:id="@+id/czasMin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Czas w minutach"
+            android:inputType="numberDecimal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="24dp"/>
+
+        <Button
+            android:id="@+id/b3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wyznacz tempo i prędkość" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dp"/>
+
+        <TextView
+            android:id="@+id/wynik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:padding="12dp" />
+
+    </LinearLayout>
+
+</ScrollView>
