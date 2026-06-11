@@ -26,7 +26,7 @@ public class KafeteriaDatabaseHelper extends SQLiteOpenHelper {
 
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
-            // Tabela Napoje
+
             db.execSQL("CREATE TABLE DRINK (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME TEXT, "
                     + "DESCRIPTION TEXT, "
@@ -44,7 +44,6 @@ public class KafeteriaDatabaseHelper extends SQLiteOpenHelper {
             insertDrink(db, "Lemoniada", "Orzeźwiająca lemoniada przygotowana ze świeżo wyciskanych cytrusów i wody, idealna na upalne dni. Jej lekko kwaśny smak doskonale gasi pragnienie i dodaje energii. Często wzbogacana miętą lub lodem, staje się jeszcze bardziej odświeżająca.", R.drawable.lemoniada, "12,00 zł");
             insertDrink(db, "Mrożona herbata", "Delikatna herbata podawana na zimno z kostkami lodu, która idealnie łączy lekkość i orzeźwienie. Często wzbogacana owocami lub cytryną, co nadaje jej świeży aromat. Doskonała alternatywa dla słodkich napojów gazowanych.", R.drawable.mrozona_h, "11,00 zł");
 
-            // Tabela Przekąski
             db.execSQL("CREATE TABLE SNACK (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME TEXT, "
                     + "DESCRIPTION TEXT, "
@@ -62,7 +61,6 @@ public class KafeteriaDatabaseHelper extends SQLiteOpenHelper {
             insertSnack(db, "Tiramisu", "Klasyczny włoski deser przygotowany z warstw nasączonych kawą biszkoptów i kremowego mascarpone. Jego struktura jest lekka, ale jednocześnie wyrazista dzięki kawowemu aromatowi i delikatnej słodyczy. Całość wykończona kakao tworzy elegancki i intensywny smak, który długo pozostaje na podniebieniu.", R.drawable.snack9, "13,00 zł");
             insertSnack(db, "Brownie czekoladowe", "Intensywnie czekoladowe ciasto o wilgotnej i cięższej strukturze, które rozpływa się w ustach. W smaku łączy głęboką gorycz gorzkiej czekolady z delikatną słodyczą. Najlepiej smakuje lekko podgrzane, szczególnie w towarzystwie lodów waniliowych lub bitej śmietany.", R.drawable.snack10, "11,50 zł");
 
-            // Tabela Lokale
             db.execSQL("CREATE TABLE CAFETERIA (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME TEXT, "
                     + "ADDRESS TEXT, "

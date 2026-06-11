@@ -27,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Kafeteria");
         }
 
-        // if (getSupportActionBar() != null) {
-        //     getSupportActionBar().hide();
-        // }
 
         AdapterView.OnItemClickListener itemClickListener =
                 new AdapterView.OnItemClickListener() {
@@ -73,11 +70,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, CafeteriaCategoryActivity.class);
             startActivity(intent);
         });
-
-//        buttonCart.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this, CartActivity.class);
-//            startActivity(intent);
-//        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_search) {
-            // wyszukiwarka
             return true;
         }
 

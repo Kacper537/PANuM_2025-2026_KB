@@ -37,10 +37,6 @@ public class SearchResultsActivity extends AppCompatActivity {
         SQLiteOpenHelper dbHelper = new KafeteriaDatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Szukamy w DRINK i SNACK (używając UNION dla uproszczenia wyświetlania)
-        // Musimy uważać na typy, żeby wiedzieć gdzie przekierować po kliknięciu.
-        // Dla uproszczenia w tym widoku: szukamy tylko w jednej tabeli lub robimy bardziej złożone zapytanie.
-        // Zróbmy zapytanie które łączy obie tabele z informacją o typie.
         
         String sql = "SELECT _id, NAME, 'DRINK' as TYPE FROM DRINK WHERE NAME LIKE ? " +
                      "UNION " +
